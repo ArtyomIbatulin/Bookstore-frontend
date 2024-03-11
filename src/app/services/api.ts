@@ -4,7 +4,7 @@ import { BASE_URL } from "../../constants"
 import type { RootState } from "../store"
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: `${BASE_URL}/api`,
+  baseUrl: `${BASE_URL}/api/v1`,
   prepareHeaders: (headers, { getState }) => {
     const token =
       (getState() as RootState).auth.token || localStorage.getItem("token")
