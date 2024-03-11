@@ -1,11 +1,11 @@
-import type { User } from "../types/userType"
+import type { RoleEnum, User } from "../types/userType"
 import { api } from "./api"
 
 export const userApi = api.injectEndpoints({
   endpoints: builder => ({
     login: builder.mutation<
       { token: string },
-      { login: string; password: string }
+      { login: string; password: string; role: RoleEnum }
     >({
       query: userData => ({
         url: "/sign-in",
@@ -14,8 +14,8 @@ export const userApi = api.injectEndpoints({
       }),
     }),
     register: builder.mutation<
-      { login: string; password: string },
-      { login: string; password: string }
+      { login: string; password: string; role: RoleEnum },
+      { login: string; password: string; role: RoleEnum }
     >({
       query: userData => ({
         url: "/sign-up",
