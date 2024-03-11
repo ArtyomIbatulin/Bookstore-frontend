@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery, retry } from "@reduxjs/toolkit/query"
 import { BASE_URL } from "../../constants"
-/* eslint-disable @typescript-eslint/consistent-type-imports */
-import { RootState } from "../store"
+
+import type { RootState } from "../store"
 
 const baseQuery = fetchBaseQuery({
   baseUrl: `${BASE_URL}/api`,
@@ -25,5 +25,3 @@ export const api = createApi({
   refetchOnMountOrArgChange: true,
   endpoints: () => ({}),
 })
-
-// eslint-disable!!!
