@@ -10,4 +10,5 @@ export type User = {
   role: RoleEnum
   // createdAt, updatedAt
   // name, avatar, date of birth, location
+  // likes, comments, books
 }
