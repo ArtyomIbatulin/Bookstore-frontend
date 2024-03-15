@@ -1,23 +1,51 @@
 import React from "react"
 import { createRoot } from "react-dom/client"
 import { Provider } from "react-redux"
-import App from "./App"
 import { store } from "./app/store"
 import "./index.css"
 import { NextUIProvider } from "@nextui-org/react"
-// import { createBrowserRouter } from "react-router-dom"
+import { RouterProvider, createBrowserRouter } from "react-router-dom"
 import { ThemeProvider } from "./components/theme-provider"
+import { AuthPage } from "./pages/auth-page"
+import { Layout } from "./components/layout"
+import { MainPage } from "./pages/main-page"
+import { BookPage } from "./pages/book-page"
+import { UserProfilePage } from "./pages/user-profile-page"
+import { WishlistPage } from "./pages/wishlist-page"
+import { OrderPage } from "./pages/order-page"
 
-// const router = createBrowserRouter([
-//   {
-//     path: "/auth",
-//     element: <h1>Auth</h1>,
-//   },
-//   {
-//     path: "/",
-//     element: <h1>Layout</h1>,
-//   },
-// ])
+const router = createBrowserRouter([
+  {
+    path: "/auth",
+    element: <AuthPage />,
+  },
+  {
+    path: "/",
+    element: <Layout />,
+    children: [
+      {
+        path: "",
+        element: <MainPage />,
+      },
+      {
+        path: "books/:id",
+        element: <BookPage />,
+      },
+      {
+        path: "users/:id",
+        element: <UserProfilePage />,
+      },
+      {
+        path: "wishlist",
+        element: <WishlistPage />,
+      },
+      {
+        path: "order",
+        element: <OrderPage />,
+      },
+    ],
+  },
+])
 
 const container = document.getElementById("root")
 
@@ -29,7 +57,7 @@ if (container) {
       <Provider store={store}>
         <NextUIProvider>
           <ThemeProvider>
-            <App />
+            <RouterProvider router={router} />
           </ThemeProvider>
         </NextUIProvider>
       </Provider>
