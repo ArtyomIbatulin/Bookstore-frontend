@@ -30,9 +30,9 @@ export const Login: React.FC<Props> = ({ setSelected }) => {
   })
 
   const [login, { isLoading }] = useLoginMutation()
-  // const navigate = useNavigate()
-  // const [error, setError] = useState("")
-  // const [triggerCurrentQuery] = useLazyCurrentQuery()
+  const navigate = useNavigate()
+  const [error, setError] = useState("")
+  const [triggerCurrentQuery] = useLazyCurrentQuery()
 
   const onSubmit = async (data: LoginType) => {
     try {
