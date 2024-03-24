@@ -5,10 +5,13 @@ import { useLazyCurrentQuery, useLoginMutation } from "../app/services/userApi"
 import { useNavigate } from "react-router-dom"
 import { useState } from "react"
 import type { RoleEnum } from "../app/types/userType"
+import { ErrorMessage } from "../components/error-message"
+import { hasErrorField } from "../utils/has-error-field"
 
 type Props = {
   setSelected: (value: string) => void
 }
+
 type LoginType = {
   login: string
   password: string
@@ -38,7 +41,9 @@ export const Login: React.FC<Props> = ({ setSelected }) => {
     try {
       await login(data).unwrap()
     } catch (error) {
-      console.log(error)
+      if (hasErrorField(error)) {
+        setError(error.data.error)
+      }
     }
   }
 
@@ -58,6 +63,8 @@ export const Login: React.FC<Props> = ({ setSelected }) => {
         type="password"
         required="Обязательное поле"
       />
+
+      <ErrorMessage error={error} />
 
       <p className="text-center text-small">
         Нет аккаунта?{" "}
