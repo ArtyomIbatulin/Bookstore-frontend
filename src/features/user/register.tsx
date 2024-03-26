@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form"
-import { Input } from "../components/input"
+import { Input } from "../../components/input"
 import { Button, Link } from "@nextui-org/react"
-import { useRegisterMutation } from "../app/services/userApi"
+import { useRegisterMutation } from "../../app/services/userApi"
 import { useState } from "react"
-import type { RoleEnum } from "../app/types/userType"
-import { hasErrorField } from "../utils/has-error-field"
-import { ErrorMessage } from "../components/error-message"
+import type { RoleEnum } from "../../app/types/userType"
+import { hasErrorField } from "../../utils/has-error-field"
+import { ErrorMessage } from "../../components/error-message"
 
 type Props = {
   setSelected: (value: string) => void

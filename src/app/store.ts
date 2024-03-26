@@ -1,7 +1,7 @@
 import type { Action, ThunkAction } from "@reduxjs/toolkit"
 import { configureStore } from "@reduxjs/toolkit"
 import { api } from "./services/api"
-import user from "../features/userSlice"
+import user from "../features/user/userSlice"
 import { listenerMiddleware } from "../middleware/auth"
 
 export const store = configureStore({
@@ -9,11 +9,11 @@ export const store = configureStore({
     [api.reducerPath]: api.reducer,
     user,
   },
-  middleware: getDefaultMiddleware => {
-    return getDefaultMiddleware()
-      .concat(api.middleware)
-      .prepend(listenerMiddleware.middleware)
-  },
+  // middleware: getDefaultMiddleware => {
+  //   return getDefaultMiddleware()
+  //     .concat(api.middleware)
+  //     .prepend(listenerMiddleware.middleware)
+  // },
 })
 
 export type AppStore = typeof store

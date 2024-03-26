@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
-import type { User } from "../app/types/userType"
-import { userApi } from "../app/services/userApi"
+import type { User } from "../../app/types/userType"
+import { userApi } from "../../app/services/userApi"
 
 interface InitialState {
   user: User | null
