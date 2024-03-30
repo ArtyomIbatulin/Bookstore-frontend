@@ -13,6 +13,7 @@ import { BookPage } from "./pages/book-page"
 import { UserProfilePage } from "./pages/user-profile-page"
 import { WishlistPage } from "./pages/wishlist-page"
 import { OrderPage } from "./pages/order-page"
+import { Auth } from "./features/user/auth"
 
 const router = createBrowserRouter([
   {
@@ -57,7 +58,9 @@ if (container) {
       <Provider store={store}>
         <NextUIProvider>
           <ThemeProvider>
-            <RouterProvider router={router} />
+            <Auth>
+              <RouterProvider router={router} />
+            </Auth>
           </ThemeProvider>
         </NextUIProvider>
       </Provider>
