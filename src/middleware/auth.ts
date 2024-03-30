@@ -5,7 +5,8 @@ export const listenerMiddleware = createListenerMiddleware()
 
 listenerMiddleware.startListening({
   matcher: userApi.endpoints.login.matchFulfilled,
-  effect: async (action, listenerApi) => {
+  effect: (action, listenerApi) => {
+    // async await ??
     listenerApi.cancelActiveListeners()
 
     if (action.payload.token) {

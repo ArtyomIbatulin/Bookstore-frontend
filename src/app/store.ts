@@ -9,11 +9,11 @@ export const store = configureStore({
     [api.reducerPath]: api.reducer,
     user,
   },
-  // middleware: getDefaultMiddleware => {
-  //   return getDefaultMiddleware()
-  //     .concat(api.middleware)
-  //     .prepend(listenerMiddleware.middleware)
-  // },
+  middleware: getDefaultMiddleware => {
+    return getDefaultMiddleware()
+      .concat(api.middleware)
+      .prepend(listenerMiddleware.middleware)
+  },
 })
 
 export type AppStore = typeof store

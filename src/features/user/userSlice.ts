@@ -33,8 +33,8 @@ const userSlice = createSlice({
         state.isAuthenticated = true
       })
       .addMatcher(userApi.endpoints.current.matchFulfilled, (state, action) => {
-        state.current = action.payload
         state.isAuthenticated = true
+        state.current = action.payload
       })
       .addMatcher(
         userApi.endpoints.getUserById.matchFulfilled,
