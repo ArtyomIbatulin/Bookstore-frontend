@@ -47,7 +47,7 @@ export const Login: React.FC<Props> = ({ setSelected }) => {
       navigate("/")
     } catch (error) {
       if (hasErrorField(error)) {
-        setError(error.data.error)
+        setError(error.data.error) // error or message
       }
     }
   }

@@ -5,7 +5,7 @@ export const userApi = api.injectEndpoints({
   endpoints: builder => ({
     login: builder.mutation<
       { token: string },
-      { login: string; password: string; role: RoleEnum }
+      { login: string; password: string; role: RoleEnum } //check
     >({
       query: userData => ({
         url: "/sign-in",
