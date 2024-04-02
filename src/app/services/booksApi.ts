@@ -4,12 +4,12 @@ import { api } from "./api"
 export const booksApi = api.injectEndpoints({
   endpoints: builder => ({
     createBook: builder.mutation<
-      Book,
+      Book, // создание названия книги, нужен доступ админа !
       {
         name: string
-        price: number
-        description: string
-        img: string
+        price?: number
+        description?: string
+        img?: string
       }
     >({
       query: bookData => ({
