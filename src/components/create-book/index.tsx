@@ -6,10 +6,13 @@ import {
 import { Button, Textarea } from "@nextui-org/react"
 import { ErrorMessage } from "../error-message"
 import { IoMdCreate } from "react-icons/io"
+import { useState } from "react"
+import { hasErrorField } from "../../utils/has-error-field"
 
 export const CreateBook = () => {
   const [createBook] = useCreateBookMutation()
   const [triggerAllBooks] = useLazyFindBooksQuery()
+  const [error, setError] = useState("")
 
   const {
     handleSubmit,
@@ -18,7 +21,7 @@ export const CreateBook = () => {
     setValue,
   } = useForm()
 
-  const error = errors?.book?.message as string
+  // const error = errors?.book?.message as string
 
   const onSubmit = handleSubmit(async data => {
     try {
@@ -26,7 +29,9 @@ export const CreateBook = () => {
       setValue("book", "")
       await triggerAllBooks().unwrap()
     } catch (error) {
-      console.log(error)
+      if (hasErrorField(error)) {
+        setError(error.data.error)
+      }
     }
   })
 
