@@ -13,6 +13,8 @@ import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { useAppSelector } from "../../app/hooks"
 import { selectCurrent } from "../../features/user/userSlice"
+import { User } from "../user"
+import { formatDate } from "../../utils/format-date"
 
 type Props = {
   avatarUrl?: string
@@ -36,7 +38,7 @@ export const Card: React.FC<Props> = ({
   commentId = "",
   likesCount = 0,
   commentsCount = 0,
-  createdAt = Date,
+  createdAt,
   id = "",
   cardFor = "book",
   likedByUser = false,
@@ -54,7 +56,14 @@ export const Card: React.FC<Props> = ({
   return (
     <NextUICard className="mb-5">
       <CardHeader className="justify-between items-center bg-transparent">
-        <Link to={`/users/${authorId}`}> {/* check path*/}</Link>
+        <Link to={`/users/${authorId}`}>
+          <User
+            name={name}
+            className="text-small font-semibold leading-non text-default-600"
+            avatarUrl={avatarUrl}
+            description={createdAt && formatDate(createdAt)}
+          />
+        </Link>
       </CardHeader>
     </NextUICard>
   )
