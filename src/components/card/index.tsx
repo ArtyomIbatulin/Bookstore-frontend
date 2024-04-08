@@ -32,15 +32,18 @@ import { ErrorMessage } from "../error-message"
 type Props = {
   avatarUrl?: string
   name: string
-  authorId: string
+  authorId?: string
   content?: string
   commentId?: string
   likesCount?: number
   commentsCount?: number
-  createdAt: Date
+  createdAt?: Date
   id?: string
   cardFor: "comment" | "book" | "current-book"
   likedByUser?: boolean
+  img?: string
+  description?: string
+  price?: number
 }
 
 export const Card: React.FC<Props> = ({
@@ -55,6 +58,9 @@ export const Card: React.FC<Props> = ({
   id = "",
   cardFor = "book",
   likedByUser = false,
+  img = "",
+  description = "",
+  price = 0,
 }) => {
   const [likeBook] = useLikeBookMutation()
   const [unlikeBook] = useUnlikeBookMutation()
