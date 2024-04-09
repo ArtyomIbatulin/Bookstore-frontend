@@ -4,7 +4,6 @@ import { CreateBook } from "../../components/create-book"
 
 export const MainPage = () => {
   const { data } = useFindBooksQuery()
-  console.log(typeof data)
   // data object!!!
 
   return (
