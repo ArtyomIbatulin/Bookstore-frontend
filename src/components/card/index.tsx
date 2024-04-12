@@ -28,6 +28,7 @@ import { FcDislike } from "react-icons/fc"
 import { MdOutlineFavoriteBorder } from "react-icons/md"
 import { FaRegComment } from "react-icons/fa"
 import { ErrorMessage } from "../error-message"
+import { hasErrorField } from "../../utils/has-error-field"
 
 type Props = {
   avatarUrl?: string
@@ -72,6 +73,49 @@ export const Card: React.FC<Props> = ({
   const navigate = useNavigate()
   const currentUser = useAppSelector(selectCurrent)
 
+  const refetchBooks = async () => {
+    switch (cardFor) {
+      case "book":
+        await triggerGetAllBooks().unwrap()
+        break
+      case "current-book":
+        await triggerGetAllBooks().unwrap()
+        break
+      case "comment":
+        await triggerGetBookById(id).unwrap()
+        break
+      default:
+        throw new Error("Не верный cardFor")
+    }
+  }
+
+  const handleDelete = async () => {
+    try {
+      switch (cardFor) {
+        case "book":
+          await deleteBook(id).unwrap()
+          await refetchBooks()
+          break
+        case "current-book":
+          await deleteBook(id).unwrap()
+          navigate("/")
+          break
+        case "comment":
+          await deleteComment(id).unwrap()
+          await refetchBooks()
+          break
+        default:
+          throw new Error("Не верный cardFor")
+      }
+    } catch (error) {
+      if (hasErrorField(error)) {
+        setError(error.data.error)
+      } else {
+        setError(error as string)
+      }
+    }
+  }
+
   return (
     <NextUICard className="mb-5">
       <CardHeader className="justify-between items-center bg-transparent">
@@ -88,7 +132,7 @@ export const Card: React.FC<Props> = ({
             {deleteBookStatus.isLoading || deleteCommentStatus.isLoading ? (
               <Spinner />
             ) : (
-              <RiDeleteBinLine />
+              <RiDeleteBinLine onClick={handleDelete} />
             )}
           </div>
         )}
