@@ -1,8 +1,11 @@
+import type { Comment } from "./commentType"
+
 export type Book = {
   id: string
   name: string
   price: number
   description: string
   img: string
-  // likes comments authors
+  comments: Comment[]
+  // likes, authors
 }
