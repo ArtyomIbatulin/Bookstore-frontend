@@ -8,7 +8,9 @@ export type User = {
   login: string
   password: string
   role: RoleEnum
+  name?: string
+  avatarUrl?: string
   // createdAt, updatedAt
-  // name, avatar, date of birth, location
+  // date of birth, location
   // likes, comments, books
 }

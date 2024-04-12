@@ -24,6 +24,22 @@ export const BookPage = () => {
         img={img ?? ""}
         price={price}
       />
+      <div className="mt-10">
+        {data.comments
+          ? data.comments.map(comment => (
+              <Card
+                cardFor="comment"
+                key={comment.id}
+                id={id}
+                commentId={comment.id}
+                content={comment.text}
+                name={comment.user.name ?? ""}
+                avatarUrl={comment.user.avatarUrl ?? ""}
+                authorId={comment.user.id}
+              />
+            ))
+          : null}
+      </div>
     </>
   )
 }
