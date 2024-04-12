@@ -116,6 +116,22 @@ export const Card: React.FC<Props> = ({
     }
   }
 
+  const handleLike = async () => {
+    try {
+      likedByUser
+        ? await unlikeBook(id).unwrap()
+        : await likeBook({ bookId: id }).unwrap()
+
+      await refetchBooks()
+    } catch (error) {
+      if (hasErrorField(error)) {
+        setError(error.data.error)
+      } else {
+        setError(error as string)
+      }
+    }
+  }
+
   return (
     <NextUICard className="mb-5">
       <CardHeader className="justify-between items-center bg-transparent">
@@ -143,7 +159,7 @@ export const Card: React.FC<Props> = ({
       {cardFor !== "comment" && (
         <CardFooter className="gap-3">
           <div className="flex gap-5 items-center">
-            <div>
+            <div onClick={handleLike}>
               <MetaInfo
                 count={likesCount}
                 Icon={likedByUser ? FcDislike : MdOutlineFavoriteBorder}
