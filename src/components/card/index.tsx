@@ -44,7 +44,7 @@ type Props = {
   likedByUser?: boolean
   img?: string
   description?: string
-  price?: number
+  price?: string //number
 }
 
 export const Card: React.FC<Props> = ({
@@ -61,7 +61,7 @@ export const Card: React.FC<Props> = ({
   likedByUser = false,
   img = "",
   description = "",
-  price = 0,
+  price = "0",
 }) => {
   const [likeBook] = useLikeBookMutation()
   const [unlikeBook] = useUnlikeBookMutation()
@@ -136,6 +136,8 @@ export const Card: React.FC<Props> = ({
     <NextUICard className="mb-5">
       <CardHeader className="justify-between items-center bg-transparent">
         <Link to={`/users/${authorId}`}>
+          {" "}
+          {/* Нет такого роута ?*/}
           <User
             name={name}
             className="text-small font-semibold leading-non text-default-600"
@@ -143,7 +145,7 @@ export const Card: React.FC<Props> = ({
             description={createdAt && formatDate(createdAt)}
           />
         </Link>
-        {authorId === currentUser?.id && (
+        {/* {authorId === currentUser?.id && (
           <div className="cursor-pointer">
             {deleteBookStatus.isLoading || deleteCommentStatus.isLoading ? (
               <Spinner />
@@ -151,9 +153,20 @@ export const Card: React.FC<Props> = ({
               <RiDeleteBinLine onClick={handleDelete} />
             )}
           </div>
-        )}
+        )} */}
+        {
+          <div className="cursor-pointer">
+            {deleteBookStatus.isLoading || deleteCommentStatus.isLoading ? (
+              <Spinner />
+            ) : (
+              <RiDeleteBinLine onClick={handleDelete} />
+            )}
+          </div>
+        }
       </CardHeader>
       <CardBody className="px-3 py-2 mb-5">
+        <Typography>{`${price} руб.`}</Typography>
+        <Typography>{description}</Typography>
         <Typography>{content}</Typography>
       </CardBody>
       {cardFor !== "comment" && (

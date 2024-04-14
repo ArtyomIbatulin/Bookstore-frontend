@@ -11,7 +11,7 @@ export const BookPage = () => {
     return <h2>Книги нет</h2>
   }
 
-  const { id, name, description, img, price } = data
+  const { id, name, description, img, price, comments } = data
 
   return (
     <>
@@ -24,6 +24,22 @@ export const BookPage = () => {
         img={img ?? ""}
         price={price}
       />
+      <div className="mt-10">
+        {comments
+          ? comments.map(comment => (
+              <Card
+                cardFor="comment"
+                key={comment.id}
+                id={id}
+                commentId={comment.id}
+                content={comment.text}
+                name={comment.user.name ?? ""}
+                avatarUrl={comment.user.avatarUrl ?? ""}
+                authorId={comment.user.id}
+              />
+            ))
+          : null}
+      </div>
     </>
   )
 }
