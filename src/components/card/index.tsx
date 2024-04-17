@@ -101,7 +101,7 @@ export const Card: React.FC<Props> = ({
           navigate("/")
           break
         case "comment":
-          await deleteComment(id).unwrap()
+          await deleteComment(commentId).unwrap()
           await refetchBooks()
           break
         default:
@@ -122,7 +122,7 @@ export const Card: React.FC<Props> = ({
         ? await unlikeBook(id).unwrap()
         : await likeBook({ bookId: id }).unwrap()
 
-      await refetchBooks()
+      await triggerGetBookById(id).unwrap()
     } catch (error) {
       if (hasErrorField(error)) {
         setError(error.data.error)
