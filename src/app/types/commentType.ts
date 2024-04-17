@@ -5,5 +5,6 @@ export type Comment = {
   text: string
   date: Date
   user: User
+  bookId: string
   // user userId book bookId
 }
