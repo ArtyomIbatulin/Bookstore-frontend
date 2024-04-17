@@ -2,6 +2,7 @@ import { useParams } from "react-router-dom"
 import { useFindBookQuery } from "../../app/services/booksApi"
 import { Card } from "../../components/card"
 import { ArrowBack } from "../../components/arrow-back"
+import { CreateComment } from "../../components/create-comment"
 
 export const BookPage = () => {
   const params = useParams<{ id: string }>()
@@ -24,6 +25,9 @@ export const BookPage = () => {
         img={img ?? ""}
         price={price}
       />
+      <div className="mt-10">
+        <CreateComment />
+      </div>
       <div className="mt-10">
         {comments
           ? comments.map(comment => (
