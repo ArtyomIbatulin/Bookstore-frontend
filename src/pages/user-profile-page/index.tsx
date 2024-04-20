@@ -1,4 +1,4 @@
-import { Card, Image, useDisclosure } from "@nextui-org/react"
+import { Button, Card, Image, useDisclosure } from "@nextui-org/react"
 import { useParams } from "react-router-dom"
 import { useAppDispatch, useAppSelector } from "../../app/hooks"
 import { resetUser, selectCurrent } from "../../features/user/userSlice"
@@ -10,11 +10,13 @@ import {
 import { useEffect } from "react"
 import { ArrowBack } from "../../components/arrow-back"
 import { BASE_URL } from "../../constants"
+import { CiEdit } from "react-icons/ci"
+import { ProfileInfo } from "../../components/profile-info"
 
 export const UserProfilePage = () => {
   const { id } = useParams<{ id: string }>()
   const { isOpen, onOpen, onClose } = useDisclosure()
-  const currenUser = useAppSelector(selectCurrent)
+  const currentUser = useAppSelector(selectCurrent)
   const { data } = useGetUserByIdQuery(id ?? "")
   const [triggerGetUserByIdQuery] = useLazyGetUserByIdQuery()
   const [triggerCurrentQuery] = useLazyCurrentQuery()
@@ -46,7 +48,14 @@ export const UserProfilePage = () => {
           />
           <div className="flex flex-col text-2xl font-bold gap-4 items-center">
             {data.login} {/* name */}
+            {currentUser?.id === id && (
+              <Button endContent={<CiEdit />}>Редактировать</Button>
+            )}
           </div>
+        </Card>
+        <Card className="flex flex-col space-y-4 p-5 flex-1">
+          <ProfileInfo title="Почта" info={data.login} />
+          {/*Плюс другие данные о профиле пользователя*/}
         </Card>
       </div>
     </>
