@@ -15,6 +15,7 @@ import {
 import { Input } from "../input"
 import { MdOutlineEmail } from "react-icons/md"
 import { ErrorMessage } from "../error-message"
+import { hasErrorField } from "../../utils/has-error-field"
 
 type Props = {
   isOpen: boolean
@@ -38,6 +39,35 @@ export const EditProfile: React.FC<Props> = ({ isOpen, onClose, user }) => {
     },
   })
 
+  const handleChangeFile = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files !== null) {
+      setSelectedFile(e.target.files[0])
+    }
+  }
+
+  const onSubmit = async (data: User) => {
+    if (id) {
+      try {
+        const formData = new FormData()
+        data.login &&
+          data.login !== user?.login &&
+          formData.append("login", data.login)
+        data.name && formData.append("name", data.name)
+        // data.dateOfBirth && formData.append('dateOfBirth' ,
+        //   new Date(data.dateOfBirth).toISOString()
+        // ) для даты рождения
+        selectedFile && formData.append("avatar", selectedFile)
+
+        await editUser({ userData: formData, id }).unwrap()
+        onClose()
+      } catch (error) {
+        if (hasErrorField(error)) {
+          setError(error.data.error)
+        }
+      }
+    }
+  }
+
   return (
     <Modal
       isOpen={isOpen}
@@ -51,7 +81,10 @@ export const EditProfile: React.FC<Props> = ({ isOpen, onClose, user }) => {
               Изменение профиля
             </ModalHeader>
             <ModalBody>
-              <form className="flex flex-col gap-4">
+              <form
+                className="flex flex-col gap-4"
+                onChange={handleSubmit(onSubmit)}
+              >
                 <Input
                   control={control}
                   name="email"
@@ -60,7 +93,12 @@ export const EditProfile: React.FC<Props> = ({ isOpen, onClose, user }) => {
                   endContent={<MdOutlineEmail />}
                 />
                 <Input control={control} name="name" label="Имя" type="text" />
-                <input type="file" name="avatarUrl" placeholder="Выбери файл" />
+                <input
+                  type="file"
+                  name="avatarUrl"
+                  placeholder="Выбери файл"
+                  onChange={handleChangeFile}
+                />
                 <ErrorMessage error={error} />
                 <div className="flex gap-2 justify-end">
                   <Button
