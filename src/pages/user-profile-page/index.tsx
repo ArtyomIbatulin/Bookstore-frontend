@@ -12,6 +12,7 @@ import { ArrowBack } from "../../components/arrow-back"
 import { BASE_URL } from "../../constants"
 import { CiEdit } from "react-icons/ci"
 import { ProfileInfo } from "../../components/profile-info"
+import { EditProfile } from "../../components/edit-profile"
 
 export const UserProfilePage = () => {
   const { id } = useParams<{ id: string }>()
@@ -49,7 +50,9 @@ export const UserProfilePage = () => {
           <div className="flex flex-col text-2xl font-bold gap-4 items-center">
             {data.login} {/* name */}
             {currentUser?.id === id && (
-              <Button endContent={<CiEdit />}>Редактировать</Button>
+              <Button endContent={<CiEdit />} onClick={() => onOpen()}>
+                Редактировать
+              </Button>
             )}
           </div>
         </Card>
@@ -58,6 +61,7 @@ export const UserProfilePage = () => {
           {/*Плюс другие данные о профиле пользователя*/}
         </Card>
       </div>
+      <EditProfile isOpen={isOpen} onClose={onClose} user={data} />
     </>
   )
 }
