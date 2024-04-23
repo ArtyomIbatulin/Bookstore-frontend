@@ -122,7 +122,13 @@ export const Card: React.FC<Props> = ({
         ? await unlikeBook(id).unwrap()
         : await likeBook({ bookId: id }).unwrap()
 
-      await triggerGetBookById(id).unwrap()
+      if (cardFor === "current-book") {
+        await triggerGetBookById(id).unwrap()
+      }
+
+      if (cardFor === "book") {
+        await triggerGetAllBooks().unwrap()
+      }
     } catch (error) {
       if (hasErrorField(error)) {
         setError(error.data.error)
