@@ -7,6 +7,7 @@ import { CreateComment } from "../../components/create-comment"
 export const BookPage = () => {
   const params = useParams<{ id: string }>()
   const { data } = useFindBookQuery(params?.id ?? "")
+  // data из базы данных комментариев или другая связь книга-комментарий
 
   if (!data) {
     return <h2>Книги нет</h2>
