@@ -71,7 +71,7 @@ export const Card: React.FC<Props> = ({
   const [deleteComment, deleteCommentStatus] = useDeleteCommentMutation()
   const [error, setError] = useState("")
   const navigate = useNavigate()
-  const currentUser = useAppSelector(selectCurrent)
+  // const currentUser = useAppSelector(selectCurrent) why?
 
   const refetchBooks = async () => {
     switch (cardFor) {

@@ -25,7 +25,7 @@ export const Login: React.FC<Props> = ({ setSelected }) => {
   const {
     handleSubmit,
     control,
-    formState: { errors },
+    formState: { errors }, //check
   } = useForm<LoginType>({
     mode: "onChange",
     reValidateMode: "onBlur",

@@ -22,7 +22,7 @@ export const Register: React.FC<Props> = ({ setSelected }) => {
   const {
     handleSubmit,
     control,
-    formState: { errors },
+    formState: { errors }, //check
   } = useForm<RegisterType>({
     mode: "onChange",
     reValidateMode: "onBlur",
