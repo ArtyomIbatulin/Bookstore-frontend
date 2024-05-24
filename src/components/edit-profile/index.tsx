@@ -83,7 +83,7 @@ export const EditProfile: React.FC<Props> = ({ isOpen, onClose, user }) => {
             <ModalBody>
               <form
                 className="flex flex-col gap-4"
-                onChange={handleSubmit(onSubmit)} // check!!!
+                onChange={handleSubmit(onSubmit)} // check!!! отправляет запрос на каждый ввод !!!
               >
                 <Input
                   control={control}
