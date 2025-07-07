@@ -10,7 +10,7 @@ export const BookPage = () => {
   // data из базы данных комментариев или другая связь книга-комментарий
 
   if (!data) {
-    return <h2>Книги нет</h2>
+    return <h2>Not found books</h2>
   }
 
   const { id, name, description, img, price, comments } = data
