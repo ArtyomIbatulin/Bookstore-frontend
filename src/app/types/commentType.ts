@@ -1,10 +1,11 @@
+import { Post } from "./postType"
 import type { User } from "./userType"
 
 export type Comment = {
   id: string
-  text: string
-  date: Date
+  content: string
   user: User
-  bookId: string
-  // user userId book bookId
+  userId: string
+  post: Post
+  postId: string
 }
