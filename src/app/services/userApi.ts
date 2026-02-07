@@ -5,39 +5,39 @@ export const userApi = api.injectEndpoints({
   endpoints: builder => ({
     login: builder.mutation<
       { token: string },
-      { login: string; password: string; role: RoleEnum } //check
+      { email: string; password: string; role: RoleEnum }
     >({
       query: userData => ({
-        url: "/sign-in",
+        url: "/login",
         method: "POST",
         body: userData,
       }),
     }),
     register: builder.mutation<
-      { login: string; password: string; role: RoleEnum },
-      { login: string; password: string; role: RoleEnum }
+      { email: string; password: string; name: string; role: RoleEnum },
+      { email: string; password: string; name: string; role: RoleEnum }
     >({
       query: userData => ({
-        url: "/sign-up",
+        url: "/register",
         method: "POST",
         body: userData,
       }),
     }),
     current: builder.query<User, void>({
       query: () => ({
-        url: "/current-user",
+        url: "/current",
         method: "GET",
       }),
     }),
     getUserById: builder.query<User, string>({
       query: id => ({
-        url: `/user/${id}`,
+        url: `/users/${id}`,
         method: "GET",
       }),
     }),
     editUser: builder.mutation<User, { userData: FormData; id: string }>({
       query: ({ userData, id }) => ({
-        url: `/user/${id}`,
+        url: `/users/${id}`,
         method: "PUT",
         body: userData,
       }),
