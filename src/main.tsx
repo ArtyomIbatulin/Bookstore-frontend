@@ -8,12 +8,12 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom"
 import { ThemeProvider } from "./components/theme-provider"
 import { AuthPage } from "./pages/auth-page"
 import { Layout } from "./components/layout"
-import { MainPage } from "./pages/main-page"
-import { BookPage } from "./pages/book-page"
 import { UserProfilePage } from "./pages/user-profile-page"
-import { WishlistPage } from "./pages/wishlist-page"
-import { OrderPage } from "./pages/order-page"
 import { Auth } from "./features/user/auth"
+import { Posts } from "./pages/posts"
+import { CurrentPost } from "./pages/current-post"
+import { Followers } from "./pages/followers"
+import { Following } from "./pages/following"
 
 const router = createBrowserRouter([
   {
@@ -26,23 +26,23 @@ const router = createBrowserRouter([
     children: [
       {
         path: "",
-        element: <MainPage />,
+        element: <Posts />,
       },
       {
-        path: "books/:id",
-        element: <BookPage />,
+        path: "posts/:id",
+        element: <CurrentPost />,
       },
       {
         path: "users/:id",
         element: <UserProfilePage />,
       },
       {
-        path: "wishlist",
-        element: <WishlistPage />,
+        path: "followers",
+        element: <Followers />,
       },
       {
-        path: "order",
-        element: <OrderPage />,
+        path: "following",
+        element: <Following />,
       },
     ],
   },
