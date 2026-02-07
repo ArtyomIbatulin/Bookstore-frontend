@@ -10,13 +10,13 @@ export const Navbar = () => {
       <ul className="flex flex-col gap-5">
         <li>
           <NavButton href="/" icon={<BsPostcard />}>
-            Главная
+            Посты
           </NavButton>
           <NavButton href="/order" icon={<FiUsers />}>
-            Корзина
+            Подписки
           </NavButton>
           <NavButton href="/wishlist" icon={<FaUsers />}>
-            Лайки
+            Подписчики
           </NavButton>
           <NavButton href="/profile" icon={<Fa6 />}>
             Профиль
