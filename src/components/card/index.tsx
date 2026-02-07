@@ -14,7 +14,7 @@ import {
   useLazyFindBookQuery,
   useLazyFindBooksQuery,
 } from "../../app/services/booksApi"
-import { useDeleteCommentMutation } from "../../app/services/commentsApi"
+import { useDeleteCommentMutation } from "../../app/services/commentApi"
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { useAppSelector } from "../../app/hooks"

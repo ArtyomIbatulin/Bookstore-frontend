@@ -5,7 +5,7 @@ import { ErrorMessage } from "../error-message"
 import { IoMdCreate } from "react-icons/io"
 import { useState } from "react"
 import { hasErrorField } from "../../utils/has-error-field"
-import { useCreateCommentMutation } from "../../app/services/commentsApi"
+import { useCreateCommentMutation } from "../../app/services/commentApi"
 import { useParams } from "react-router-dom"
 
 export const CreateComment = () => {
