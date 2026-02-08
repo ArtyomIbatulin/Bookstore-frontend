@@ -1,5 +1,5 @@
 import { useFindBooksQuery } from "../../app/services/booksApi"
-import { Card } from "../../components/card"
+import { CardForBook } from "../../components/card-for-book"
 import { CreateBook } from "../../components/create-book"
 
 export const MainPage = () => {
@@ -12,7 +12,7 @@ export const MainPage = () => {
       </div>
       {data && data.length > 0 ? (
         data.map(({ id, name, img, price, description }) => (
-          <Card
+          <CardForBook
             key={id}
             id={id}
             cardFor="book"
