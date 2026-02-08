@@ -12,7 +12,7 @@ type Props = {
 }
 
 type RegisterType = {
-  login: string
+  email: string
   password: string
   name: string
   role: RoleEnum
@@ -22,12 +22,12 @@ export const Register: React.FC<Props> = ({ setSelected }) => {
   const {
     handleSubmit,
     control,
-    formState: { errors }, //check
+    formState: { errors },
   } = useForm<RegisterType>({
     mode: "onChange",
     reValidateMode: "onBlur",
     defaultValues: {
-      login: "",
+      email: "",
       password: "",
       name: "",
     },
@@ -51,15 +51,8 @@ export const Register: React.FC<Props> = ({ setSelected }) => {
     <form className="flex flex-col gap-4" onSubmit={handleSubmit(onSubmit)}>
       <Input
         control={control}
-        name="name"
-        label="Имя"
-        type="text"
-        required="Обязательное поле"
-      />
-      <Input
-        control={control}
-        name="login"
-        label="Логин"
+        name="email"
+        label="Email"
         type="email"
         required="Обязательное поле"
       />
@@ -70,7 +63,13 @@ export const Register: React.FC<Props> = ({ setSelected }) => {
         type="password"
         required="Обязательное поле"
       />
-
+      <Input
+        control={control}
+        name="name"
+        label="Имя"
+        type="text"
+        required="Обязательное поле"
+      />
       <ErrorMessage error={error} />
 
       <p className="text-center text-small">
