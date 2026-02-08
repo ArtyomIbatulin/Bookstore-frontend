@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom"
 import { useFindBookQuery } from "../../app/services/booksApi"
-import { Card } from "../../components/card"
+import { CardForBook } from "../../components/card-for-book"
 import { ArrowBack } from "../../components/arrow-back"
 import { CreateComment } from "../../components/create-comment"
 
@@ -18,7 +18,7 @@ export const BookPage = () => {
   return (
     <>
       <ArrowBack />
-      <Card
+      <CardForBook
         cardFor="current-book"
         id={id}
         name={name ?? ""}
@@ -32,12 +32,12 @@ export const BookPage = () => {
       <div className="mt-10">
         {comments
           ? comments.map(comment => (
-              <Card
+              <CardForBook
                 cardFor="comment"
                 key={comment.id}
                 id={id}
                 commentId={comment.id}
-                content={comment.text}
+                content={comment.content}
                 name={comment.user.name ?? ""}
                 avatarUrl={comment.user.avatarUrl ?? ""}
                 authorId={comment.user.id}
