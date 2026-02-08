@@ -26,7 +26,7 @@ export const CreateComment = () => {
   const onSubmit = handleSubmit(async data => {
     try {
       if (id) {
-        await createComment({ text: data.comment, bookId: id }).unwrap()
+        await createComment({ content: data.comment, postId: id }).unwrap()
         setValue("comment", "")
         await getBookById(id).unwrap()
       }
