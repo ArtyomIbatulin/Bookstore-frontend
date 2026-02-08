@@ -5,15 +5,7 @@ import {
   Card as NextUICard,
   Spinner,
 } from "@nextui-org/react"
-import {
-  useLikeBookMutation,
-  useUnlikeBookMutation,
-} from "../../app/services/likeApi"
-import {
-  useDeleteBookMutation,
-  useLazyFindBookQuery,
-  useLazyFindBooksQuery,
-} from "../../app/services/booksApi"
+
 import { useDeleteCommentMutation } from "../../app/services/commentApi"
 import { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
@@ -29,6 +21,15 @@ import { MdOutlineFavoriteBorder } from "react-icons/md"
 import { FaRegComment } from "react-icons/fa"
 import { ErrorMessage } from "../error-message"
 import { hasErrorField } from "../../utils/has-error-field"
+import {
+  useLikePostMutation,
+  useUnlikePostMutation,
+} from "../../app/services/likeApi"
+import {
+  useDeletePostMutation,
+  useLazyGetAllPostsQuery,
+  useLazyGetPostByIdQuery,
+} from "../../app/services/postApi"
 
 type Props = {
   avatarUrl?: string
@@ -40,11 +41,8 @@ type Props = {
   commentsCount?: number
   createdAt?: Date
   id?: string
-  cardFor: "comment" | "book" | "current-book"
+  cardFor: "comment" | "post" | "current-post"
   likedByUser?: boolean
-  img?: string
-  description?: string
-  price?: string //number
 }
 
 export const Card: React.FC<Props> = ({
@@ -57,32 +55,29 @@ export const Card: React.FC<Props> = ({
   commentsCount = 0,
   createdAt,
   id = "",
-  cardFor = "book",
+  cardFor = "post",
   likedByUser = false,
-  img = "",
-  description = "",
-  price = "0",
 }) => {
-  const [likeBook] = useLikeBookMutation()
-  const [unlikeBook] = useUnlikeBookMutation()
-  const [triggerGetAllBooks] = useLazyFindBooksQuery()
-  const [triggerGetBookById] = useLazyFindBookQuery()
-  const [deleteBook, deleteBookStatus] = useDeleteBookMutation()
+  const [likePost] = useLikePostMutation()
+  const [unlikePost] = useUnlikePostMutation()
+  const [triggerGetAllPosts] = useLazyGetAllPostsQuery()
+  const [triggerGetPostById] = useLazyGetPostByIdQuery()
+  const [deletePost, deletePostStatus] = useDeletePostMutation()
   const [deleteComment, deleteCommentStatus] = useDeleteCommentMutation()
   const [error, setError] = useState("")
   const navigate = useNavigate()
-  // const currentUser = useAppSelector(selectCurrent) why?
+  const currentUser = useAppSelector(selectCurrent)
 
-  const refetchBooks = async () => {
+  const refetchPosts = async () => {
     switch (cardFor) {
-      case "book":
-        await triggerGetAllBooks().unwrap()
+      case "post":
+        await triggerGetAllPosts().unwrap()
         break
-      case "current-book":
-        await triggerGetAllBooks().unwrap()
+      case "current-post":
+        await triggerGetAllPosts().unwrap()
         break
       case "comment":
-        await triggerGetBookById(id).unwrap()
+        await triggerGetPostById(id).unwrap()
         break
       default:
         throw new Error("Не верный cardFor")
@@ -92,17 +87,17 @@ export const Card: React.FC<Props> = ({
   const handleDelete = async () => {
     try {
       switch (cardFor) {
-        case "book":
-          await deleteBook(id).unwrap()
-          await refetchBooks()
+        case "post":
+          await deletePost(id).unwrap()
+          await refetchPosts()
           break
-        case "current-book":
-          await deleteBook(id).unwrap()
+        case "current-post":
+          await deletePost(id).unwrap()
           navigate("/")
           break
         case "comment":
           await deleteComment(commentId).unwrap()
-          await refetchBooks()
+          await refetchPosts()
           break
         default:
           throw new Error("Не верный cardFor")
@@ -119,15 +114,15 @@ export const Card: React.FC<Props> = ({
   const handleLike = async () => {
     try {
       likedByUser
-        ? await unlikeBook(id).unwrap()
-        : await likeBook({ bookId: id }).unwrap()
+        ? await unlikePost(id).unwrap()
+        : await likePost({ postId: id }).unwrap()
 
-      if (cardFor === "current-book") {
-        await triggerGetBookById(id).unwrap()
+      if (cardFor === "current-post") {
+        await triggerGetPostById(id).unwrap()
       }
 
-      if (cardFor === "book") {
-        await triggerGetAllBooks().unwrap()
+      if (cardFor === "post") {
+        await triggerGetAllPosts().unwrap()
       }
     } catch (error) {
       if (hasErrorField(error)) {
@@ -142,8 +137,6 @@ export const Card: React.FC<Props> = ({
     <NextUICard className="mb-5">
       <CardHeader className="justify-between items-center bg-transparent">
         <Link to={`/users/${authorId}`}>
-          {" "}
-          {/* Нет такого роута ?*/}
           <User
             name={name}
             className="text-small font-semibold leading-non text-default-600"
@@ -151,30 +144,20 @@ export const Card: React.FC<Props> = ({
             description={createdAt && formatDate(createdAt)}
           />
         </Link>
-        {/* {authorId === currentUser?.id && (
+        {authorId === currentUser?.id && (
           <div className="cursor-pointer">
-            {deleteBookStatus.isLoading || deleteCommentStatus.isLoading ? (
+            {deletePostStatus.isLoading || deleteCommentStatus.isLoading ? (
               <Spinner />
             ) : (
               <RiDeleteBinLine onClick={handleDelete} />
             )}
           </div>
-        )} */}
-        {
-          <div className="cursor-pointer">
-            {deleteBookStatus.isLoading || deleteCommentStatus.isLoading ? (
-              <Spinner />
-            ) : (
-              <RiDeleteBinLine onClick={handleDelete} />
-            )}
-          </div>
-        }
+        )}
       </CardHeader>
       <CardBody className="px-3 py-2 mb-5">
-        <Typography>{`${price} руб.`}</Typography>
-        <Typography>{description}</Typography>
         <Typography>{content}</Typography>
       </CardBody>
+
       {cardFor !== "comment" && (
         <CardFooter className="gap-3">
           <div className="flex gap-5 items-center">
@@ -184,7 +167,7 @@ export const Card: React.FC<Props> = ({
                 Icon={likedByUser ? FcDislike : MdOutlineFavoriteBorder}
               />
             </div>
-            <Link to={`/books/${id}`}>
+            <Link to={`/posts/${id}`}>
               <MetaInfo count={commentsCount} Icon={FaRegComment} />
             </Link>
           </div>
