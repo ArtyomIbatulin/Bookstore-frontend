@@ -105,7 +105,9 @@ export const UserProfilePage = () => {
                 {data.isFollowing ? "Отписаться" : "Подписаться"}
               </Button>
             ) : (
-              <Button endContent={<CiEdit />}>Редактировать</Button>
+              <Button endContent={<CiEdit />} onClick={() => onOpen()}>
+                Редактировать
+              </Button>
             )}
           </div>
         </Card>
