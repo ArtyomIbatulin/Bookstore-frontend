@@ -59,6 +59,21 @@ export const UserProfilePage = () => {
     }
   }
 
+  const handleFollow = async () => {
+    try {
+      if (id) {
+        data?.isFollowing
+          ? await unfollowUser(id).unwrap()
+          : await followUser({ followingId: id }).unwrap()
+
+        await triggerGetUserByIdQuery(id)
+        await triggerCurrentQuery()
+      }
+    } catch (error) {
+      console.log(`${error} in the handleFollow`)
+    }
+  }
+
   return (
     <>
       <ArrowBack />
@@ -85,6 +100,7 @@ export const UserProfilePage = () => {
                     <MdOutlinePersonAddAlt1 />
                   )
                 }
+                onClick={handleFollow}
               >
                 {data.isFollowing ? "Отписаться" : "Подписаться"}
               </Button>
