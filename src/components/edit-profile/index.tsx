@@ -3,7 +3,7 @@ import type { User } from "../../app/types/userType"
 import { ThemeContext } from "../theme-provider"
 import { useEditUserMutation } from "../../app/services/userApi"
 import { useParams } from "react-router-dom"
-import { useForm } from "react-hook-form"
+import { Controller, useForm } from "react-hook-form"
 import {
   Button,
   Modal,
@@ -11,6 +11,7 @@ import {
   ModalContent,
   ModalFooter,
   ModalHeader,
+  Textarea,
 } from "@nextui-org/react"
 import { Input } from "../input"
 import { MdOutlineEmail } from "react-icons/md"
@@ -34,8 +35,11 @@ export const EditProfile: React.FC<Props> = ({ isOpen, onClose, user }) => {
     mode: "onChange",
     reValidateMode: "onBlur",
     defaultValues: {
-      login: user?.login,
+      email: user?.email,
       name: user?.name,
+      bio: user?.bio,
+      location: user?.location,
+      dateOfBirth: user?.dateOfBirth,
     },
   })
 
@@ -49,13 +53,17 @@ export const EditProfile: React.FC<Props> = ({ isOpen, onClose, user }) => {
     if (id) {
       try {
         const formData = new FormData()
-        data.login &&
-          data.login !== user?.login &&
-          formData.append("login", data.login)
+        data.email &&
+          data.email !== user?.email &&
+          formData.append("email", data.email)
         data.name && formData.append("name", data.name)
-        // data.dateOfBirth && formData.append('dateOfBirth' ,
-        //   new Date(data.dateOfBirth).toISOString()
-        // ) для даты рождения
+        data.dateOfBirth &&
+          formData.append(
+            "dateOfBirth",
+            new Date(data.dateOfBirth).toISOString(),
+          )
+        data.bio && formData.append("bio", data.bio)
+        data.location && formData.append("location", data.location)
         selectedFile && formData.append("avatar", selectedFile)
 
         await editUser({ userData: formData, id }).unwrap()
@@ -99,6 +107,34 @@ export const EditProfile: React.FC<Props> = ({ isOpen, onClose, user }) => {
                   placeholder="Выбери файл"
                   onChange={handleChangeFile}
                 />
+
+                <Input
+                  control={control}
+                  name="dateOfBirth"
+                  label="Дата рождения"
+                  type="date"
+                  placeholder="Дата рождения"
+                />
+
+                <Controller
+                  name="bio"
+                  control={control}
+                  render={({ field }) => (
+                    <Textarea
+                      {...field}
+                      placeholder="Ваша биография"
+                      rows={4}
+                    />
+                  )}
+                />
+
+                <Input
+                  control={control}
+                  name="location"
+                  label="Местоположение"
+                  type="text"
+                />
+
                 <ErrorMessage error={error} />
                 <div className="flex gap-2 justify-end">
                   <Button
